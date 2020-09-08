@@ -1,13 +1,10 @@
-﻿using Clkd.Assets;
-using Clkd.Main;
-using Clkd.Managers;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+
 using Clkd.Main;
 using Clkd.State;
 using CloakedTetris.Initializers;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System;
 
 namespace CloakedTetris
 {
@@ -18,7 +15,6 @@ namespace CloakedTetris
     {
         GraphicsDeviceManager GraphicsDeviceManager;
         SpriteBatch spriteBatch;
-        ContextualGameState GameState;
 
         public Game1()
         {
@@ -97,7 +93,7 @@ namespace CloakedTetris
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            
+
             Cloaked.Draw(spriteBatch);
             base.Draw(gameTime);
         }

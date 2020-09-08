@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CloakedTetris.Shapes
 {
@@ -11,7 +7,8 @@ namespace CloakedTetris.Shapes
         private static Random Random = new Random();
 
         private static AbstractShape _nextShape;
-        public static AbstractShape NextShape {
+        public static AbstractShape NextShape
+        {
             get
             {
                 var shape = _nextShape;
@@ -21,7 +18,8 @@ namespace CloakedTetris.Shapes
             }
         }
 
-        static ShapeManager(){
+        static ShapeManager()
+        {
             _nextShape = GetRandomShape();
         }
 

@@ -1,4 +1,6 @@
-﻿namespace CloakedTetris
+﻿using CloakedTetris.State;
+
+namespace CloakedTetris.Shapes
 {
     public class ShapeL : AbstractShape
     {

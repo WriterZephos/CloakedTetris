@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using Clkd.Assets;
-using Clkd.Main;
-using Clkd.State;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
-namespace CloakedTetris
+using Microsoft.Xna.Framework;
+
+using Clkd.Assets;
+using Clkd.State;
+
+namespace CloakedTetris.State
 {
     public class Level : AbstractGameState
     {
@@ -43,7 +43,7 @@ namespace CloakedTetris
 
             foreach (Block b in Grid)
             {
-                if(b != null)
+                if (b != null)
                 {
                     renderables.AddRange(b.GetRenderables(renderableCoordinate));
                 }
@@ -61,67 +61,67 @@ namespace CloakedTetris
             switch (levelNumber)
             {
                 case 1:
-                    array = new Block[20,10];
+                    array = new Block[20, 10];
                     delay = 1_000_000_000L;
                     scoreG = 30_000L;
                     return new Level(array, delay, scoreG);
 
                 case 2:
-                    array = new Block[20,10];
+                    array = new Block[20, 10];
                     delay = 900_000_000L;
                     scoreG = 40_000L;
                     return new Level(array, delay, scoreG);
 
                 case 3:
-                    array = new Block[20,10];
+                    array = new Block[20, 10];
                     delay = 800_000_000L;
                     scoreG = 50_000L;
                     return new Level(array, delay, scoreG);
 
                 case 4:
-                    array = new Block[20,10];
+                    array = new Block[20, 10];
                     delay = 700_000_000L;
                     scoreG = 60_000L;
                     return new Level(array, delay, scoreG);
 
                 case 5:
-                    array = new Block[20,10];
+                    array = new Block[20, 10];
                     delay = 600_000_000L;
                     scoreG = 70_000L;
                     return new Level(array, delay, scoreG);
 
                 case 6:
-                    array = new Block[20,10];
+                    array = new Block[20, 10];
                     delay = 500_000_000L;
                     scoreG = 80_000L;
                     return new Level(array, delay, scoreG);
 
                 case 7:
-                    array = new Block[20,10];
+                    array = new Block[20, 10];
                     delay = 400_000_000L;
                     scoreG = 90_000L;
                     return new Level(array, delay, scoreG);
 
                 case 8:
-                    array = new Block[20,10];
+                    array = new Block[20, 10];
                     delay = 300_000_000L;
                     scoreG = 1_00_000L;
                     return new Level(array, delay, scoreG);
 
                 case 9:
-                    array = new Block[20,10];
+                    array = new Block[20, 10];
                     delay = 200_000_000L;
                     scoreG = 1_10_000L;
                     return new Level(array, delay, scoreG);
 
                 case 10:
-                    array = new Block[20,10];
+                    array = new Block[20, 10];
                     delay = 100_000_000L;
                     scoreG = 1_20_000L;
                     return new Level(array, delay, scoreG);
 
                 default:
-                    array = new Block[20,10];
+                    array = new Block[20, 10];
                     delay = 1_000_000_000L;
                     scoreG = 1000L;
                     return new Level(array, delay, scoreG);

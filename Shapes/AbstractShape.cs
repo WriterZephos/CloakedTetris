@@ -1,11 +1,12 @@
-﻿using Clkd.Assets;
-using Clkd.Main;
-using Clkd.Managers;
-using Clkd.State;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace CloakedTetris
+using Clkd.Main;
+using Clkd.Managers;
+
+using CloakedTetris.State;
+
+namespace CloakedTetris.Shapes
 {
     public abstract class AbstractShape : AbstractComponent
     {
@@ -52,7 +53,7 @@ namespace CloakedTetris
                 Collided = MoveSegments(0, 1, blocks);
                 if (Collided)
                 {
-                    foreach(Block b in Segments)
+                    foreach (Block b in Segments)
                     {
                         b.Fixed = true;
                     }

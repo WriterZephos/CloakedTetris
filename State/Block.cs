@@ -1,12 +1,12 @@
-﻿using Clkd.Assets;
-using Clkd.Main;
-using Clkd.State;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace CloakedTetris
+using Microsoft.Xna.Framework;
+
+using Clkd.Assets;
+using Clkd.State;
+
+namespace CloakedTetris.State
 {
     public class Block : AbstractGameState
     {
@@ -24,7 +24,8 @@ namespace CloakedTetris
             Y = y;
             Color = color;
 
-            switch (color) {
+            switch (color)
+            {
                 case "red":
                     SpriteCoordinate = new SpriteCoordinate("blocks", 0, 0, 32, 32);
                     break;
@@ -52,12 +53,12 @@ namespace CloakedTetris
 
         public override void Update(GameTime gameTime)
         {
-            if(Animation != null && !Animation.Completed)
+            if (Animation != null && !Animation.Completed)
             {
                 Animation.Update(gameTime);
                 Animation.RenderableCoordinate = new RenderableCoordinate(X * 32, Y * 32, 10, 32, 32);
             }
-            else if(Animation != null && Animation.Completed && Fixed)
+            else if (Animation != null && Animation.Completed && Fixed)
             {
                 Flashed = true;
                 Animation = null;
@@ -66,7 +67,7 @@ namespace CloakedTetris
 
         public override List<Renderable> GetRenderables(RenderableCoordinate? renderableCoordinate)
         {
-            if(Animation != null && !Animation.Completed)
+            if (Animation != null && !Animation.Completed)
             {
 
                 return Animation.GetRenderables();
@@ -81,12 +82,12 @@ namespace CloakedTetris
         public void StartFlashAnimation()
         {
             var animation = new SpriteAnimation(
-                new List<SpriteCoordinate> {
+                frames: new List<SpriteCoordinate> {
                     new SpriteCoordinate("blocks", 224, 0, 32, 32),
                     SpriteCoordinate
-                }, 
-                4, 
-                new TimeSpan(0, 0, 0, 0, 300)
+                },
+                interval: new TimeSpan(0, 0, 0, 0, 300),
+                iterationLimit: 4
             );
             var animationState = new SpriteAnimationState(animation);
             Animation = animationState;

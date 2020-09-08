@@ -1,14 +1,16 @@
-﻿using Clkd.Assets;
-using Clkd.Main;
-using Clkd.Managers;
-using Clkd.Gui;
-using Clkd.State;
-using CloakedTetris.Shapes;
+﻿using System;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
+
+using Clkd.Assets;
+using Clkd.Main;
+using Clkd.Managers;
+using Clkd.State;
+
+using CloakedTetris.Shapes;
+using CloakedTetris.State;
 
 namespace CloakedTetris.Initializers
 {
@@ -22,15 +24,15 @@ namespace CloakedTetris.Initializers
 
             ContextManager contextManager = new ContextManager();
             // Create game state object.
-            ContextualGameState GameState = new ContextualGameState("global","start");
+            ContextualGameState GameState = new ContextualGameState("global", "start");
 
             contextManager.AddNewContext("global")
                 .AddComponent(new RenderableManager(graphicsDeviceManager, new Camera2D()))
                 .AddComponent(GameState);
 
-            // Create the first context your game will operate in.
-            contextManager.AddShallowCopyOf("global","start")
-                .AddComponent(new GuiManager(new RenderableCoordinate(0, 0, 99, 320, 640)));
+            // // Create the first context your game will operate in.
+            contextManager.AddShallowCopyOf("global", "start");
+            //     .AddComponent(new GuiManager(new RenderableCoordinate(0, 0, 99, 320, 640)));
 
             // set up the context 
             InitializeStartContext(contextManager.GetContext("start"));
@@ -70,7 +72,6 @@ namespace CloakedTetris.Initializers
         private static void InitializeGameContext(GameContext context)
         {
             context.AddComponent(new KeyboardInputManager())
-            .AddComponent(new TimedEffectManager())
             .AddComponent(new TriggerManager())
             .AddComponent(new ValueGameState());
 
@@ -148,7 +149,7 @@ namespace CloakedTetris.Initializers
             GameStateContext.Add("level", level);
             GameStateContext.Add("activeShape", ShapeManager.NextShape);
 
-            var effect = new TimedEffect(
+            var effect = new TimedAction(
                 (gameTime, actionState) =>
                 {
                     if (!Cloaked.GetComponent<ValueGameState>().GetBoolFlag("preventTimedDrop"))
@@ -156,10 +157,10 @@ namespace CloakedTetris.Initializers
                         ContextualGameState gs = Cloaked.GetComponent<ContextualGameState>();
                         gs.GetComponent<AbstractShape>("game", "activeShape").Drop(gs.GetComponent<Level>("game", "level").Grid);
                     }
-                    
+
                 }, new TimeSpan(0, 0, 1));
 
-            context.GetComponent<TimedEffectManager>().EffectStates.Add("drop_every_1000_ms_state", new TimedEffectState(effect));
+            context.AddComponent("drop_every_1000_ms_state", new TimedExecutionState(effect));
 
             var collision_trigger = new Trigger("collision_trigger",
                 () =>

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework.Graphics;
+﻿using CloakedTetris.State;
 
-namespace CloakedTetris
+namespace CloakedTetris.Shapes
 {
     public class ShapeT : AbstractShape
     {
@@ -83,9 +78,9 @@ namespace CloakedTetris
                     break;
             }
 
-            foreach(Block b in Segments)
+            foreach (Block b in Segments)
             {
-                blocks[b.Y,b.X] = b;
+                blocks[b.Y, b.X] = b;
             }
         }
     }

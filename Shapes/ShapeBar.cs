@@ -1,4 +1,6 @@
-﻿namespace CloakedTetris
+﻿using CloakedTetris.State;
+
+namespace CloakedTetris.Shapes
 {
     public class ShapeBar : AbstractShape
     {
@@ -53,9 +55,9 @@
                 }
             }
 
-            foreach(Block b in Segments)
+            foreach (Block b in Segments)
             {
-                blocks[b.Y,b.X] = b;
+                blocks[b.Y, b.X] = b;
             }
 
         }

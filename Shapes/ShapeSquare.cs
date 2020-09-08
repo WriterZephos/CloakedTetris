@@ -1,4 +1,6 @@
-﻿namespace CloakedTetris
+﻿using CloakedTetris.State;
+
+namespace CloakedTetris.Shapes
 {
     public class ShapeSquare : AbstractShape
     {
@@ -9,7 +11,7 @@
 
         public override void Rotate(Block[,] blocks)
         {
-  
+
         }
 
     }
