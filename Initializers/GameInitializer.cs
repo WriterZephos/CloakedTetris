@@ -11,6 +11,8 @@ using Clkd.State;
 
 using CloakedTetris.Shapes;
 using CloakedTetris.State;
+using Clkd.GUI;
+using Clkd.GUI.Layouts;
 
 namespace CloakedTetris.Initializers
 {
@@ -26,16 +28,29 @@ namespace CloakedTetris.Initializers
             // Create game state object.
             ContextualGameState GameState = new ContextualGameState("global", "start");
 
-            contextManager.AddNewContext("global")
+            contextManager.AddNewContext(newId: "global")
                 .AddComponent(new RenderableManager(graphicsDeviceManager, new Camera2D()))
                 .AddComponent(GameState);
 
+            GuiPane pane = new GuiPane(new GuiContainer(new GuiGridLayout(2, 2)));
+            pane.RootContainer.TopPadding = 20f;
+            pane.RootContainer.BottomPadding = 20f;
+            pane.RootContainer.RightPadding = 20f;
+            pane.RootContainer.LeftPadding = 20f;
+            pane.RootContainer.GetLayout<GuiGridLayout>().HorizontalGutter = 5;
+            pane.RootContainer.GetLayout<GuiGridLayout>().VerticalGutter = 20;
+            pane.RootContainer.GetLayout<GuiGridLayout>().AddComponent(0, 0, new ColoredRectangle(100, 100, Color.CornflowerBlue));
+            pane.RootContainer.GetLayout<GuiGridLayout>().AddComponent(0, 1, new ColoredRectangle(100, 100, Color.Red));
+            pane.RootContainer.GetLayout<GuiGridLayout>().AddComponent(1, 0, new ColoredRectangle(100, 100, Color.Green));
+            pane.RootContainer.GetLayout<GuiGridLayout>().AddComponent(1, 1, new ColoredRectangle(100, 100, Color.Purple));
+
+
             // // Create the first context your game will operate in.
-            contextManager.AddShallowCopyOf("global", "start");
-            //     .AddComponent(new GuiManager(new RenderableCoordinate(0, 0, 99, 320, 640)));
+            contextManager.AddShallowCopyOf(id: "global", newId: "start")
+                .AddComponent(pane);
 
             // set up the context 
-            InitializeStartContext(contextManager.GetContext("start"));
+            InitializeStartContext(contextManager.GetContext(id: "start"));
 
             contextManager.GetContext("global").GetComponent<RenderableManager>()
                 .SetWindowSize(320, 640)
@@ -44,7 +59,7 @@ namespace CloakedTetris.Initializers
             // Initialize CloakedGame.
             Cloaked.Initialize(content, graphicsDeviceManager, contextManager);
             Cloaked.ContextManager.ActivateContext("start");
-
+            pane.Initialize();
             Cloaked.Ready = true;
         }
 

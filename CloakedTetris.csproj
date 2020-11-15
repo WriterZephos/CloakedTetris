@@ -30,11 +30,12 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cloaked\Cloaked.csproj" />
+    <ProjectReference Include="..\CloakedUI\CloakedUI\CloakedUI.csproj" />
   </ItemGroup>
 
   <!--The following config was taken from: https://www.reddit.com/r/monogame/comments/cst49i/the_ultimate_guide_to_getting_started_with/-->
   <!-- Actually cleans your project when you run "dotnet clean" -->
-  <Target Name="SpicNSpan"  AfterTargets="Clean">
+  <Target Name="SpicNSpan" AfterTargets="Clean">
       <!-- Remove obj folder -->
       <RemoveDir Directories="$(BaseIntermediateOutputPath)" />
       <!-- Remove bin folder -->
