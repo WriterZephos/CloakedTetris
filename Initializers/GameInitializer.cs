@@ -65,21 +65,37 @@ namespace CloakedTetris.Initializers
 
         private static void InitializeStartContext(GameContext context)
         {
-            context.AddComponent(new KeyboardInputManager());
-
+            context.AddComponent(new KeyboardInputManager()
             // Register a keybinding that will start the game when any key is pressed.
             // The trigger will push the in-game game context to take over.
-            context.GetComponent<KeyboardInputManager>().RegisterKeyMapping(
-                KeyMapping.GetMappingToAnyKey("pressAnyKey"),
-                new KeyTrigger(
-                    (status) =>
-                    {
-                        return status.KeyTyped();
-                    },
-                    () =>
-                    {
-                        SetUpNewGame(Level.GetLevel(1));
-                    }
+                .RegisterKeyMapping(
+                    KeyMapping.GetMappingToAnyKey("pressAnyKey"),
+                    new GenericInputTrigger<KeyStatus>(
+                        (status) =>
+                        {
+                            return status.KeyTyped();
+                        },
+                        (KeyStatus status) =>
+                        {
+                            SetUpNewGame(Level.GetLevel(1));
+                        }
+                    )
+                )
+            );
+
+            context.AddComponent(new MouseInputManager()
+                .RegisterMouseMapping(
+                    MouseMapping.GetMappingToAnyButton("clickAnyWhere"),
+                    new GenericInputTrigger<MouseStatus>(
+                        (status) =>
+                        {
+                            return status.Clicked();
+                        },
+                        (MouseStatus status) =>
+                        {
+                            SetUpNewGame(Level.GetLevel(1));
+                        }
+                    )
                 )
             );
         }
@@ -92,34 +108,34 @@ namespace CloakedTetris.Initializers
 
             context.GetComponent<KeyboardInputManager>().RegisterKeyMapping(
                 new KeyMapping("down", Keys.Down),
-                new KeyTrigger(
+                new GenericInputTrigger<KeyStatus>(
                     (status) => { return status.KeyTyped() || (status.KeyHeld() && status.DurationSinceLastExecute.TotalMilliseconds > 100); },
-                    () =>
+                    (KeyStatus status) =>
                     {
                         var state = Cloaked.GetComponent<ContextualGameState>();
                         state.GetComponent<AbstractShape>("game", "activeShape")
                         .Drop(state.GetComponent<Level>("game", "level").Grid);
-                        Cloaked.GetComponent<ValueGameState>().SetFlag("preventTimedDrop", true);
+                        Cloaked.GetComponent<ValueGameState>().SetBoolValue("preventTimedDrop", true);
                     }
                 )
             )
 
             .RegisterKeyMapping(
                 new KeyMapping("down", Keys.Down),
-                new KeyTrigger(
+                new GenericInputTrigger<KeyStatus>(
                     (status) => { return status.KeyReleased(); },
-                    () =>
+                    (KeyStatus status) =>
                     {
-                        Cloaked.GetComponent<ValueGameState>().SetFlag("preventTimedDrop", false);
+                        Cloaked.GetComponent<ValueGameState>().SetBoolValue("preventTimedDrop", false);
                     }
                 )
             )
 
             .RegisterKeyMapping(
                 new KeyMapping("left", Keys.Left),
-                new KeyTrigger(
+                new GenericInputTrigger<KeyStatus>(
                     (status) => { return status.KeyTyped() || (status.KeyHeld() && status.DurationSinceLastExecute.TotalMilliseconds > 200); },
-                    () =>
+                    (KeyStatus status) =>
                     {
                         var state = Cloaked.GetComponent<ContextualGameState>();
                         state.GetComponent<AbstractShape>("game", "activeShape")
@@ -130,9 +146,9 @@ namespace CloakedTetris.Initializers
 
             .RegisterKeyMapping(
                 new KeyMapping("space", Keys.Up),
-                new KeyTrigger(
+                new GenericInputTrigger<KeyStatus>(
                     (status) => { return status.KeyTyped() || (status.KeyHeld() && status.DurationSinceLastExecute.TotalMilliseconds > 200); },
-                    () =>
+                    (KeyStatus status) =>
                     {
                         var state = Cloaked.GetComponent<ContextualGameState>();
                         state.GetComponent<AbstractShape>("game", "activeShape")
@@ -142,9 +158,9 @@ namespace CloakedTetris.Initializers
             )
             .RegisterKeyMapping(
                 new KeyMapping("right", Keys.Right),
-                new KeyTrigger(
+                new GenericInputTrigger<KeyStatus>(
                     (status) => { return status.KeyTyped() || (status.KeyHeld() && status.DurationSinceLastExecute.TotalMilliseconds > 200); },
-                    () =>
+                    (KeyStatus status) =>
                     {
                         var state = Cloaked.GetComponent<ContextualGameState>();
                         state.GetComponent<AbstractShape>("game", "activeShape")
@@ -152,7 +168,6 @@ namespace CloakedTetris.Initializers
                     }
                 )
             );
-
         }
 
         public static void SetUpNewGame(Level level)
@@ -167,7 +182,7 @@ namespace CloakedTetris.Initializers
             var effect = new TimedAction(
                 (gameTime, actionState) =>
                 {
-                    if (!Cloaked.GetComponent<ValueGameState>().GetBoolFlag("preventTimedDrop"))
+                    if (!Cloaked.GetComponent<ValueGameState>().GetBoolValue("preventTimedDrop"))
                     {
                         ContextualGameState gs = Cloaked.GetComponent<ContextualGameState>();
                         gs.GetComponent<AbstractShape>("game", "activeShape").Drop(gs.GetComponent<Level>("game", "level").Grid);
